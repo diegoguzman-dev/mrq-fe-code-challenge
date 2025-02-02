@@ -1,3 +1,6 @@
+.desktopInfo {
+  grid-area: desktopInfo;
+}
 @media (max-width: 1023px) {
   .desktopInfo {
     display: none;

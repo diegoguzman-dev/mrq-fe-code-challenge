@@ -2,10 +2,17 @@
   background: var(--colorWhite);
   border-radius: 10px;
   transition: transform 0.2s;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .symbolCard {
+    justify-self: stretch;
+  }
 }
 
 .symbolsGrid:has(.symbolCard_active) .symbolCard {
-  transform: scale(0.8);
+  transform: scale(0.98);
 }
 
 .symbolsGrid:has(.symbolCard_active) .symbolCard_active {
