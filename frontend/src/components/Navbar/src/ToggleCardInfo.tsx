@@ -1,10 +1,10 @@
 import React from 'react';
-import { toggleShowCardInfo, selectShowCardInfo } from '@/store/dashboardOptionsSlice'; // Adjust the import path
+import { toggleShowCardInfo, selectors } from '@/store/dashboardOptionsSlice'; // Adjust the import path
 import './toggleCardInfo.css';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 const ToggleCardInfo: React.FC = () => {
   const dispatch = useAppDispatch();
-  const showCardInfo = useAppSelector(selectShowCardInfo);
+  const showCardInfo = useAppSelector(selectors.selectShowCardInfo);
 
   const handleChange = () => {
     dispatch(toggleShowCardInfo());

@@ -13,6 +13,7 @@ export type SymbolCardProps = {
   price: string;
   selected?: boolean;
   priceChange?: 'up' | 'down';
+  showInfo?: boolean;
 };
 
 function formatMarketCap(value: number): string {
@@ -26,7 +27,7 @@ function formatMarketCap(value: number): string {
   }).format(value);
 }
 
-const SymbolCard = ({ id, onClick, price, selected, priceChange }: SymbolCardProps) => {
+const SymbolCard = ({ id, onClick, price, selected, priceChange, showInfo }: SymbolCardProps) => {
   const { trend, companyName, industry, marketCap } = useAppSelector(
     (state) => state.stocks.entities[id]
   );
@@ -43,13 +44,17 @@ const SymbolCard = ({ id, onClick, price, selected, priceChange }: SymbolCardPro
       <SymbolCardHeading {...{ id, trend }} />
       <div className="symbolCard__content">
         <SymbolCardPrice {...{ id, price }} />
-        <ListItem Icon={<CompanyIcon />} label={companyName} spacing="space-between" />
-        <ListItem Icon={<IndustryIcon />} label={industry} spacing="space-between" />
-        <ListItem
-          Icon={<MarketCapIcon />}
-          label={formatMarketCap(marketCap)}
-          spacing="space-between"
-        />
+        {showInfo && (
+          <>
+            <ListItem Icon={<CompanyIcon />} label={companyName} spacing="space-between" />
+            <ListItem Icon={<IndustryIcon />} label={industry} spacing="space-between" />
+            <ListItem
+              Icon={<MarketCapIcon />}
+              label={formatMarketCap(marketCap)}
+              spacing="space-between"
+            />
+          </>
+        )}
       </div>
     </div>
   );
