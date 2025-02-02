@@ -9,9 +9,13 @@ import Loading from '@/components/Loading';
 const PriceChart = () => {
   const dispatch = useAppDispatch();
   const symbolId = useAppSelector(dashboardOptsSelectors.selectActiveSymbol);
+
   useEffect(() => {
     if (symbolId) {
-      dispatch(fetchPriceHistory(symbolId));
+      const promise = dispatch(fetchPriceHistory(symbolId));
+      return () => {
+        promise.abort();
+      };
     }
   }, [dispatch, symbolId]);
 
