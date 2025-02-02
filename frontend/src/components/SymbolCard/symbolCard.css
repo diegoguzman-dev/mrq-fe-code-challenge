@@ -17,12 +17,15 @@
 
 .symbolsGrid:has(.symbolCard_active) .symbolCard_active {
   transform: scale(1.02);
+  box-shadow: 0 0 20px var(--colorDark);
 }
 
+.symbolsGrid:has(.symbolCard_active) .symbolCardPrice_up,
 .symbolCardPrice_up {
   box-shadow: 0 0 20px var(--colorGreen);
 }
 
+.symbolsGrid:has(.symbolCard_active) .symbolCardPrice_down,
 .symbolCardPrice_down {
   box-shadow: 0 0 20px var(--colorRed);
 }

@@ -8,6 +8,7 @@ export type Stock = {
   marketCap: number;
   exchange: 'NASDAQ' | 'NYSE';
   trend: 'UP' | 'DOWN' | null;
+  formattedMarketCap?: string;
 };
 
 type StockEntry = {
@@ -32,6 +33,17 @@ const initialState: StocksState = {
   }
 };
 
+function formatMarketCap(value: number): string {
+  if (isNaN(value)) return '';
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    notation: 'compact',
+    maximumFractionDigits: 1
+  }).format(value);
+}
+
 export const fetchAllStocks = createAsyncThunk(
   'stocks/fetchAllStocks',
   // if you type your function argument here
@@ -55,7 +67,7 @@ const stocksSlice = createSlice({
       // Add user to the state array
       const map: StockEntry = {};
       action.payload.forEach((e) => {
-        map[e.symbol] = e;
+        map[e.symbol] = { ...e, formattedMarketCap: formatMarketCap(e.marketCap) };
       });
       const ids = Object.keys(map);
       const newState = { entities: map, ids };

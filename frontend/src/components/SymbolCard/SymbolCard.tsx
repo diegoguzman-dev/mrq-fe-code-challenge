@@ -7,30 +7,22 @@ import ListItem from '@/components/ListItem';
 import SymbolCardPrice from '../SymbolCardPrice';
 import SymbolCardHeading from '../SymbolCardHeading';
 import { setActiveSymbol } from '@/store/dashboardOptionsSlice';
+import { useEffect, useRef, useState } from 'react';
 
 export type SymbolCardProps = {
   id: string;
-  price: string;
   selected?: boolean;
-  priceChange?: 'up' | 'down';
   showInfo?: boolean;
 };
 
-function formatMarketCap(value: number): string {
-  if (isNaN(value)) return '';
-
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-    maximumFractionDigits: 1
-  }).format(value);
-}
-
-const SymbolCard = ({ id, price, selected, priceChange, showInfo }: SymbolCardProps) => {
-  const { trend, companyName, industry, marketCap } = useAppSelector(
+const SymbolCard = ({ id, selected, showInfo }: SymbolCardProps) => {
+  const price = useAppSelector((state) => state.prices[id]);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { trend, companyName, industry, formattedMarketCap } = useAppSelector(
     (state) => state.stocks.entities[id]
   );
+  const [priceChange, setPriceChange] = useState<'up' | 'down'>();
+  const [priceSpike, setPriceSpike] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const handleOnClick = () => {
     dispatch(setActiveSymbol(id));
@@ -38,20 +30,30 @@ const SymbolCard = ({ id, price, selected, priceChange, showInfo }: SymbolCardPr
 
   const styleSelected = selected ? ' symbolCard_active' : '';
   const stylePriceChange = priceChange ? ` symbolCardPrice_${priceChange}` : '';
-  const classNames = `symbolCard${styleSelected}${stylePriceChange}`;
+  const stylePriceSpike = priceSpike ? ' symbolCard__shake' : '';
+  const classNames = `symbolCard${styleSelected}${stylePriceChange}${stylePriceSpike}`;
+
+  useEffect(() => {
+    setPriceSpike(price?.priceSpike ?? false);
+    setPriceChange(price?.priceChange);
+    setTimeout(() => {
+      setPriceSpike(false);
+      setPriceChange(undefined);
+    }, 800);
+  }, [price?.price]);
 
   return (
-    <div onClick={handleOnClick} className={classNames}>
+    <div onClick={handleOnClick} className={classNames} ref={cardRef}>
       <SymbolCardHeading {...{ id, trend }} />
       <div className="symbolCard__content">
-        <SymbolCardPrice {...{ id, price }} />
+        <SymbolCardPrice price={price?.formattedPrice ?? ''} />
         {showInfo && (
           <>
             <ListItem Icon={<CompanyIcon />} label={companyName} spacing="space-between" />
             <ListItem Icon={<IndustryIcon />} label={industry} spacing="space-between" />
             <ListItem
               Icon={<MarketCapIcon />}
-              label={formatMarketCap(marketCap)}
+              label={formattedMarketCap ?? ''}
               spacing="space-between"
             />
           </>
