@@ -1,0 +1,16 @@
+.symbolCardHeading {
+  background: var(--colorDark);
+  color: var(--colorWhite);
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px 10px 0 0;
+}
+
+.symbolCardHeading_span {
+  padding: 5px;
+}
+
+.symbolCardHeading_img {
+  transform: translate(20px, -15px);
+  max-width: 50px;
+}
