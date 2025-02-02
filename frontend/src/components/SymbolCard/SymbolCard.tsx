@@ -2,14 +2,14 @@ import './symbolCard.css';
 import { ReactComponent as CompanyIcon } from '@/assets/company.svg';
 import { ReactComponent as IndustryIcon } from '@/assets/industry.svg';
 import { ReactComponent as MarketCapIcon } from '@/assets/market_cap.svg';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import ListItem from '@/components/ListItem';
 import SymbolCardPrice from '../SymbolCardPrice';
 import SymbolCardHeading from '../SymbolCardHeading';
+import { setActiveSymbol } from '@/store/dashboardOptionsSlice';
 
 export type SymbolCardProps = {
   id: string;
-  onClick: (symbolId: string) => void;
   price: string;
   selected?: boolean;
   priceChange?: 'up' | 'down';
@@ -27,12 +27,13 @@ function formatMarketCap(value: number): string {
   }).format(value);
 }
 
-const SymbolCard = ({ id, onClick, price, selected, priceChange, showInfo }: SymbolCardProps) => {
+const SymbolCard = ({ id, price, selected, priceChange, showInfo }: SymbolCardProps) => {
   const { trend, companyName, industry, marketCap } = useAppSelector(
     (state) => state.stocks.entities[id]
   );
+  const dispatch = useAppDispatch();
   const handleOnClick = () => {
-    onClick(id);
+    dispatch(setActiveSymbol(id));
   };
 
   const styleSelected = selected ? ' symbolCard_active' : '';
