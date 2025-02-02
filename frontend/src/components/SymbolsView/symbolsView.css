@@ -1,0 +1,18 @@
+@media screen and (min-width: 1024px) {
+  .symbolsView {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+      'desktopInfo desktopInfo'
+      'symbolsGrid chart';
+  }
+  .symbolsView__chart {
+    grid-area: chart;
+  }
+
+  .symbolsView__cards {
+    grid-area: symbolsGrid;
+    padding: 10px;
+  }
+}

@@ -16,12 +16,27 @@ export const dashboardOptionsSlice = createSlice({
   reducers: {
     toggleShowCardInfo: (state) => {
       state.showCardInfo = !state.showCardInfo;
+    },
+    setActiveSymbol: (state, action) => {
+      if (state.activeSymbol === action.payload) {
+        state.activeSymbol = null;
+        return;
+      }
+      state.activeSymbol = action.payload
     }
   }
 });
 
-export const { toggleShowCardInfo } = dashboardOptionsSlice.actions;
+export const { toggleShowCardInfo, setActiveSymbol } = dashboardOptionsSlice.actions;
 
-export const selectShowCardInfo = (state: { store: StoreState }) => state.store.showCardInfo;
+const selectShowCardInfo = (state: { store: StoreState }) => state.store.showCardInfo;
+
+const selectActiveSymbol = (state: { store: StoreState }) => state.store.activeSymbol;
+
+const selectors = {
+  selectShowCardInfo,
+  selectActiveSymbol
+};
 
 export default dashboardOptionsSlice.reducer;
+export { selectors };

@@ -1,9 +1,38 @@
 .symbolCard {
-  border: 2px solid black; /* just for visibility, feel free to remove it */
-  margin: 10px; /* just for visibility, feel free to remove it */
-  padding: 10px; /* just for visibility, feel free to remove it */
+  background: var(--colorWhite);
+  border-radius: 10px;
+  transition: transform 0.2s;
+  width: 100%;
 }
 
+@media (min-width: 1024px) {
+  .symbolCard {
+    justify-self: stretch;
+  }
+}
+
+.symbolsGrid:has(.symbolCard_active) .symbolCard {
+  transform: scale(0.98);
+}
+
+.symbolsGrid:has(.symbolCard_active) .symbolCard_active {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px var(--colorDark);
+}
+
+.symbolsGrid:has(.symbolCard_active) .symbolCardPrice_up,
+.symbolCardPrice_up {
+  box-shadow: 0 0 20px var(--colorGreen);
+}
+
+.symbolsGrid:has(.symbolCard_active) .symbolCardPrice_down,
+.symbolCardPrice_down {
+  box-shadow: 0 0 20px var(--colorRed);
+}
+
+.symbolCard__content {
+  padding: 5px;
+}
 .symbolCard__shake {
   animation: shake 0.62s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
